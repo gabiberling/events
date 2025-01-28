@@ -16,7 +16,7 @@ public class EventController {
     private EventService eventService;
 
     @PostMapping (consumes = "multipart/form-data")
-    public ResponseEntity<Event> create(@RequestParam("title") String title,
+    public ResponseEntity<Event> create(@RequestParam("title") String title, //requestparam de cada um porque tem imagem e tivemos que fazer post form-data (multipart)
                                         @RequestParam(value = "description", required = false) String description,
                                         @RequestParam("date") Long date,
                                         @RequestParam("city") String city,
@@ -25,6 +25,8 @@ public class EventController {
                                         @RequestParam("eventUrl") String eventUrl,
                                         @RequestParam(value = "image", required = false)MultipartFile image){
         EventRequestDTO eventRequestDTO = new EventRequestDTO(title, description, date, city, uf, remote, eventUrl, image);
+        //manualmente porque o Spring não consegue ler quando vem no formato de multipart
+
         Event newEvent = this.eventService.createEvent(eventRequestDTO);
         return ResponseEntity.ok(newEvent);
     }
